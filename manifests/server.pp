@@ -12,8 +12,17 @@ class rsyslog::server(
     notify => Service['rsyslog'],
   }
 
-  file { '/etc/rsyslog.conf':
+  concat{ $rsyslog::params::rsyslog_config_name:
+    owner => 'root',
+    group => 'root',
+    mode  => '0644',
+    notify => Service['rsyslog'],
+  }
+
+  concat::fragment{'rsyslog.main':
+    target  => $rsyslog::params::rsyslog_config_name,
     content => template('rsyslog/server.conf.erb'),
+    order   => 01,
   }
 
   file { '/etc/iptables.d/21-rsyslog.rules.ipv4':

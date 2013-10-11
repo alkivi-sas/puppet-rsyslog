@@ -10,10 +10,18 @@ class rsyslog::client(
     owner  => 'root',
     group  => 'root',
     mode   => '0644',
+  }
+
+  concat{ $rsyslog::params::rsyslog_config_name:
+    owner => 'root',
+    group => 'root',
+    mode  => '0644',
     notify => Service['rsyslog'],
   }
 
-  file { '/etc/rsyslog.conf':
+  concat::fragment{'rsyslog.main':
+    target  => $rsyslog::params::rsyslog_config_name,
     content => template('rsyslog/client.conf.erb'),
+    order   => 01,
   }
 }
