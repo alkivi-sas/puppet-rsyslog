@@ -1,7 +1,7 @@
 *filter
 
-<% @allowed_customers.each do |name, dataHash| %><% if dataHash['public_ip'] %>
--A INPUT -p tcp -s <%= dataHash['public_ip'] %> --dport <%= @port %> -j ACCEPT -m comment --comment "rsyslog <%= name %>"
-<% end %><% end %>
+<% @allowed_customers.each do |name, dataHash| %><% if dataHash['public_ip'] %><% dataHash['public_ip'].each do |ip| %>
+-A INPUT -p tcp -s <%= ip %> --dport <%= @port %> -j ACCEPT -m comment --comment "rsyslog <%= name %>"
+<% end %><% end %><% end%>
 
 COMMIT
