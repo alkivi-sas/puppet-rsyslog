@@ -1,7 +1,27 @@
 class rsyslog::server(
   $allowed_customers,
-  $port    = '10514',
+  $tcp      = true,
+  $tcp_port = 10514,
+  $udp      = false,
+  $udp_port = 514,
+
 ) {
+
+  if !$tcp and !$udp
+  {
+    fail('You must choose tcp or udp')
+  }
+
+  if $tcp and (! is_integer($tcp_port))
+  {
+    fail('tcp_port should be an integer')
+  }
+
+  if $udp and (! is_integer($udp_port))
+  {
+    fail('udp_port should be an integer')
+  }
+
   validate_string($port)
 
   File {
