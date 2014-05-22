@@ -57,6 +57,7 @@ $IncludeConfig /etc/rsyslog.d/*.conf
 
 $LocalHostName admin.alkivi.fr
 $template AlkiviFormat,"%timegenerated% [%HOSTNAME%] %syslogtag%%msg%\n"
+$template AlkiviSort,"/var/log/hosts/%HOSTNAME%/%PROGRAMNAME%.log"
 
 ###############
 #### RULES ####
@@ -67,6 +68,7 @@ $template AlkiviFormat,"%timegenerated% [%HOSTNAME%] %syslogtag%%msg%\n"
 #
 auth,authpriv.*			/var/log/auth.log
 *.*;auth,authpriv.none		-/var/log/syslog;AlkiviFormat
+*.*;auth,authpriv.none		?AlkiviSort;AlkiviFormat
 #cron.*				/var/log/cron.log
 daemon.*			-/var/log/daemon.log
 kern.*				-/var/log/kern.log
