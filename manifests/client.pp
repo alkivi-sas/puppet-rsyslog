@@ -1,6 +1,6 @@
 class rsyslog::client(
   $hostname,
-  $forwarders,
+  $forwarders = [],
 ) {
   validate_string($hostname)
   validate_array($forwarders)

@@ -7,11 +7,6 @@ class rsyslog::server(
 
 ) {
 
-  if !$tcp and !$udp
-  {
-    fail('You must choose tcp or udp')
-  }
-
   if $tcp and (! is_integer($tcp_port))
   {
     fail('tcp_port should be an integer')
@@ -21,8 +16,6 @@ class rsyslog::server(
   {
     fail('udp_port should be an integer')
   }
-
-  validate_string($port)
 
   File {
     ensure => present,
