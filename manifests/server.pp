@@ -1,5 +1,4 @@
 class rsyslog::server(
-  $allowed_customers,
   $tcp      = true,
   $tcp_port = 10514,
   $udp      = false,
@@ -36,11 +35,5 @@ class rsyslog::server(
     target  => $rsyslog::params::rsyslog_config_name,
     content => template('rsyslog/server.conf.erb'),
     order   => 01,
-  }
-
-  file { '/etc/iptables.d/21-rsyslog.rules.ipv4':
-    content => template('rsyslog/iptable.conf.erb'),
-    notify  => Service['alkivi-iptables'],
-    require => Class['alkivi_base'],
   }
 }
